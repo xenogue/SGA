@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory name="session">
+        <!--Configurações de conexões com o BD-->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/sga_db?createDatabaseIfNotExist=true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+        <property name="hibernate.show_sql">true</property>
+	<property name="hibernate.format_sql">true</property>
+        <property name="hbm2ddl.auto">update</property>
+        
+        <!--POOL DE CONEXÃO-->
+        <property name="hibernate.c3p0.min_size">1</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">80</property>
+        <property name="hibernate.c3p0.idle_test_period">300</property>
+        
+        <!--ENTIDADES-->
+        <!-- LISTA DE ENTIDADES -->
+        <mapping class="br.com.sga.model.entities.Cidade"/>        
+        <mapping class="br.com.sga.model.entities.Endereco"/>      
+        <mapping class="br.com.sga.model.entities.Estado"/>      
+        <mapping class="br.com.sga.model.entities.Pessoa"/>               
+        <mapping class="br.com.sga.model.entities.Sexo"/>
+        <mapping class="br.com.sga.model.entities.TipoEndereco"/>
+        <mapping class="br.com.sga.model.entities.TipoLogradouro"/>
+        <!---->
+        <!---->
+    </session-factory>
+</hibernate-configuration>
