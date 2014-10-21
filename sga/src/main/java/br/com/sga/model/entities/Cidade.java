@@ -26,8 +26,6 @@ public class Cidade implements Serializable {
     private Integer idCidade;
     @Column(name="nome", nullable = false, length = 80)
     private String nome;
-    @Column(name="sigla", nullable = false, length = 2)
-    private String sigla;
 
     @OneToMany(mappedBy = "cidade", fetch = FetchType.LAZY)
     @ForeignKey(name = "CidadeEndereco")
@@ -50,14 +48,6 @@ public class Cidade implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getSigla() {
-        return sigla;
-    }
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
     }
 
     @Override
@@ -83,4 +73,3 @@ public class Cidade implements Serializable {
     }
     
 }
-

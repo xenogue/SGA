@@ -11,28 +11,41 @@
     <ui:define name="tarefas">
         <p:fieldset legend="Cadastrar Cidades">
             <br/>
+
+
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="Arquivo:" />
+                    <h:inputText value="#{control.arquivo}" />
+                    <h:commandButton
+                        value="Importar Arquivo"
+                        action="#{control.importarArquivo}" />
+                    <h:commandLink
+                        value="Visualizar PDF"
+                        action="#{control.visualizarPdf}"
+                        target="_blank" />
+                </h:panelGrid>
+            </h:form>
+
             <p:tabView dynamic="true" id="tbv1">
                 <p:tab title="Cidade">
                     <h:form prependId="false" id="formCidade">
                         <p:growl id="msg0" /> 
                         <h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid" id="grid0">
-                            
+
                             <h:outputLabel/>
                             <h:inputHidden id="idCidade" value="#{mbCidade.cidade.idCidade}"/>
-                            
-                                <h:outputLabel for="siglaCidade" value="Sigla:"/>
-                                <p:inputText id="siglaCidade" size="2" value="#{mbCidade.cidade.sigla}" 
-                                             onkeyup="this.value = this.value.toUpperCase()" required="true"
-                                             requiredMessage="O campo [Sigla] é obrigatório." />
 
-                                <h:outputLabel for="nomeCidade" value="Nome:"/>
-                                <p:inputText id="nomeCidade" size="40" value="#{mbCidade.cidade.nome}" 
-                                             onkeyup="this.value = this.value.toUpperCase()" required="true"
-                                             requiredMessage="O campo [Nome] é obrigatório." />
+
+
+                            <h:outputLabel for="nomeCidade" value="Nome:"/>
+                            <p:inputText id="nomeCidade" size="40" value="#{mbCidade.cidade.nome}" 
+                                         onkeyup="this.value = this.value.toUpperCase()" required="true"
+                                         requiredMessage="O campo [Nome] é obrigatório." />
                             <h:outputLabel/>
                             <p:panel>
                                 <p:commandButton value="Salvar" action="#{mbCidade.addCidade}" 
-                                                 image="ui-icon ui-icon-disk" update="@form"/>
+                                                 image="ui-icon ui-icon-disk" update="@form :formTable"/>
                                 <p:commandButton value="Cancelar" actionListener="#{mbCidade.limpCidade}" 
                                                  image="ui-icon ui-icon-close" update="@form"/>
                             </p:panel>
@@ -40,6 +53,39 @@
                     </h:form>
                 </p:tab>
             </p:tabView>
+
+            <h:form id="formTable">
+                <p:growl id="msg1" />
+                <p:dataTable id="idTabela" var="cidade" value="#{mbCidade.cidades}"
+                             paginator="true" rows="10" emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <f:facet name="header">Lista de Cidades</f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="nome"/>
+                        </f:facet>
+                        <h:outputText value="#{cidade.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Ações"/>
+                        </f:facet>
+                        <p:commandButton value="Editar" image="ui-icon ui-icon-pencil"
+                                         process="@this" update=":tbv1:formCidade">
+                            <f:setPropertyActionListener target="#{mbCidade.cidade}"
+                                                         value="#{cidade}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Remover" image="ui-icon ui-icon-close"
+                                         update="@form" action="#{mbCidade.deleteCidade}">
+                            <f:setPropertyActionListener target="#{mbCidade.cidade}"
+                                                         value="#{cidade}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </p:fieldset>
     </ui:define>
 
