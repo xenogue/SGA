@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -17,7 +17,7 @@ import javax.faces.context.FacesContext;
  * @author rios
  */
 @ManagedBean(name="mbCidade")
-@SessionScoped
+@RequestScoped
 public class MbCidade implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -42,7 +42,12 @@ public class MbCidade implements Serializable {
     }
     
     public String addCidade(){
-        if(cidade.getIdCidade() == null || cidade.getIdCidade() == 0) {
+        if(cidade.getNome() != ""){
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Cidade já cadastrada", ""));
+            return null;
+        }
+        if(cidade.getIdCidade() == null || cidade.getIdCidade() == 0 ) {
             insertCidade();
         } else{
             updateCidade();
@@ -65,6 +70,8 @@ public class MbCidade implements Serializable {
     
     public void deleteCidade() {
         cidadeDAO().remove(cidade);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Cidade excluída com sucesso", ""));
     }
 
     public Cidade getCidade() {
