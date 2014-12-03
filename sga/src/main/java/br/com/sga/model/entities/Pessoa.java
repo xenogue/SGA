@@ -2,6 +2,7 @@ package br.com.sga.model.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,8 +33,6 @@ public class Pessoa implements Serializable {
     private String nome;
     @Column(name="email", nullable = false, length = 80)
     private String email;
-    @Column(name="telefone", nullable = false, length = 18)
-    private String telefone;
     @Column(name="cpf", nullable = false, length = 14)
     private String cpf;
     @Column(name="dataNascimento", nullable = false)
@@ -41,6 +41,19 @@ public class Pessoa implements Serializable {
     @Column(name="dataCadastro", nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataCadastro;
+    @Column(name="saram", nullable = true)
+    private String saram;
+    
+    @Column(name="login", unique= true, nullable = false, length = 25)
+    private String login;
+    @Column(name="senha", nullable = false, length = 22)
+    private String senha;
+    @Column(name="permissao", nullable = true, length = 36)
+    private String permissao;
+//    @Column(name="role", unique= true, nullable = false, length = 25)
+//    private String role;
+    
+    
     
     @OneToOne(mappedBy = "pessoa", fetch = FetchType.LAZY)
     @ForeignKey(name = "EnderecoPessoa")
@@ -51,6 +64,11 @@ public class Pessoa implements Serializable {
     @JoinColumn(name = "idSexo", referencedColumnName = "idSexo")
     private Sexo sexo;
     
+    @OneToMany(mappedBy = "telefone", fetch = FetchType.LAZY)
+    @ForeignKey(name = "PessoaTelefone")
+    private List<Telefone> telefones;
+    
+        
     public Pessoa() {
         this.sexo = new Sexo();
     }
@@ -77,14 +95,6 @@ public class Pessoa implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
     }
 
     public String getCpf() {
@@ -127,6 +137,48 @@ public class Pessoa implements Serializable {
         this.endereco = endereco;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getPermissao() {
+        return permissao;
+    }
+
+    public void setPermissao(String permissao) {
+        this.permissao = permissao;
+    }
+
+    public String getSaram() {
+        return saram;
+    }
+
+    public void setSaram(String saram) {
+        this.saram = saram;
+    }
+
+    public List<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 3;

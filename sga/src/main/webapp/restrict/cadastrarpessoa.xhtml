@@ -32,10 +32,16 @@
                                                        itemLabel="#{sexo.descricao}"/>
                                     </p:selectOneMenu>
 
-                                    <h:outputLabel for="telefone" value="Telefone.:"/>
-                                    <p:inputMask id="telefone" size="15" value="#{mbPessoa.pessoa.telefone}" 
+                                    <h:outputLabel for="telefoneSecao" value="Telefone da Seção.:"/>
+                                    <p:inputMask id="telefoneSecao" size="15" value="#{mbPessoa.telefoneSecao.telefone}" 
                                                  required="true" mask="(99) 9999-99999"
-                                                 requiredMessage="O campo [Telefone] é obrigatório" 
+                                                 requiredMessage="O campo [Telefone da Seção] é obrigatório" 
+                                                 onkeyup="this.value = this.value.toUpperCase()"/>
+                                    
+                                    <h:outputLabel for="telefonePessoal" value="Telefone Pessoal.:"/>
+                                    <p:inputMask id="telefonePessoal" size="15" value="#{mbPessoa.telefonePessoal.telefone}" 
+                                                 required="true" mask="(99) 9999-99999"
+                                                 requiredMessage="O campo [Telefone Pessoal] é obrigatório" 
                                                  onkeyup="this.value = this.value.toUpperCase()"/>
 
                                     <h:outputLabel for="email" value="E-mail.:"/>
@@ -55,6 +61,25 @@
                                     <p:calendar id="dataNascimento" value="#{mbPessoa.pessoa.dataNascimento}" required="true"
                                                 requiredMessage="O campo [Data de Nascimento] é obrigatório"
                                                 locale="pt_BR" navigator="true" effect="explode" pattern="dd/MM/yyyy"/>
+                                    
+                                    <h:outputLabel for="login" value="Login.:"/>
+                                    <p:inputText id="loginPessoa" size="25" maxlength="25" 
+                                                 value="#{mbPessoa.pessoa.login}" required="true"
+                                                 requiredMessage="O campo [Login] é obrigatório"/>
+                                    
+                                    <h:outputLabel for="senha" value="Senha.:"/>
+                                    <p:password id="senha" size="22" maxlength="22" 
+                                                 required="true" requiredMessage="O campo [Senha] é obrigatório"
+                                                 promptLabel="Digite sua Senha" value="#{mbPessoa.confereSenha}"
+                                                 weakLabel="Senha fraca" goodLabel="Senha normal" strongLabel="Senha forte"
+                                                 feedback="true"/>
+                                    
+                                    <h:outputLabel for="conferesenha" value="Confirmar Senha.:"/>
+                                    <p:password id="senhaconf" size="22" maxlength="22" 
+                                                 required="true" promptLabel="Confirme sua Senha" 
+                                                 value="#{mbPessoa.pessoa.senha}" weakLabel="Senha fraca" 
+                                                 goodLabel="Senha normal" strongLabel="Senha forte"
+                                                 feedback="true"/>
                                     <p:panel>
                                         <p:commandButton value="Salvar" action="#{mbPessoa.addPessoa}" 
                                                          image="ui-icon ui-icon-disk" update="@form"/>

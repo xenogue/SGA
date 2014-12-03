@@ -25,15 +25,15 @@ public class Endereco {
     @GeneratedValue
     @Column(name = "idEndereco", nullable = false)
     private Integer idEndereco;
-    @Column(name = "bairro", nullable = false)
+    @Column(name = "bairro")
     private String bairro;
-    @Column(name = "cep", nullable = false)
+    @Column(name = "cep")
     private String cep;
-    @Column(name = "complemento", nullable = false)
+    @Column(name = "complemento")
     private String complemento;
-    @Column(name = "nomeLogradouro", nullable = false)
+    @Column(name = "nomeLogradouro")
     private String nomeLogradouro;
-    @Column(name = "numero", nullable = false)
+    @Column(name = "numero")
     private String numero;
     
     //optional = Pode cadastrar uma pessoa sem endereço

@@ -64,4 +64,5 @@ public class HibernateDAO<T> implements InterfaceDAO<T>, Serializable {
         return criteria.getExecutableCriteria(session).list();
     }
     
+    
 }
