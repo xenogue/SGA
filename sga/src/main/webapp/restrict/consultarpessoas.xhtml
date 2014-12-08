@@ -42,7 +42,7 @@
                         <f:facet name="header">
                             <h:outputText value="telefone"/>
                         </f:facet>
-                        <h:outputText value="#{pessoa.telefone}"/>
+                        <h:outputText value="#{pessoa.telefonePessoal}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
@@ -54,10 +54,10 @@
                             <f:setPropertyActionListener target="#{mbPessoa.pessoa}" value="#{pessoa}"/>
                             <f:setPropertyActionListener target="#{mbPessoa.pessoa.idPessoa}" value="#{pessoa.idPessoa}"/>
                             <f:setPropertyActionListener target="#{mbPessoa.endereco}" value="#{pessoa.endereco}"/>
-                            <f:setPropertyActionListener target="#{mbPessoa.endereco.estado.idEstado}" value="#{pessoa.endereco.estado.idEstado}"/>
-                            <f:setPropertyActionListener target="#{mbPessoa.endereco.cidade.idCidade}" value="#{pessoa.endereco.cidade.idCidade}"/>
-                            <f:setPropertyActionListener target="#{mbPessoa.endereco.tipoEndereco.idTipoEndereco}" value="#{pessoa.endereco.tipoEndereco.idTipoEndereco}"/>
-                            <f:setPropertyActionListener target="#{mbPessoa.endereco.tipoLogradouro.idTipoLogradouro}" value="#{pessoa.endereco.tipoLogradouro.idTipoLogradouro}"/>
+                            <!--<f:setPropertyActionListener target="#{mbPessoa.endereco.estado.idEstado}" value="#{pessoa.endereco.estado.idEstado}"/>-->
+                            <!--<f:setPropertyActionListener target="#{mbPessoa.endereco.cidade.idCidade}" value="#{pessoa.endereco.cidade.idCidade}"/>-->
+                            <!--<f:setPropertyActionListener target="#{mbPessoa.endereco.tipoEndereco.idTipoEndereco}" value="#{pessoa.endereco.tipoEndereco.idTipoEndereco}"/>-->
+                            <!--<f:setPropertyActionListener target="#{mbPessoa.endereco.tipoLogradouro.idTipoLogradouro}" value="#{pessoa.endereco.tipoLogradouro.idTipoLogradouro}"/>-->
                         </p:commandButton>
                         <p:commandButton value="Cancelar" image="ui-icon ui-icon-close"
                                          update="@form" action="#{mbPessoa.limpPessoa}"/>

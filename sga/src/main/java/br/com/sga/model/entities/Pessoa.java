@@ -41,12 +41,18 @@ public class Pessoa implements Serializable {
     @Column(name="dataCadastro", nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataCadastro;
-    @Column(name="saram", nullable = true)
-    private String saram;
+    @Column(name="saram", nullable = false)
+    private Integer saram;
+    @Column(name="secao", nullable = false)
+    private String secao;
+    @Column(name="telefonePessoal", nullable = false)
+    private String telefonePessoal;
+    @Column(name="telefoneSecao", nullable = false)
+    private String telefoneSecao;
     
     @Column(name="login", unique= true, nullable = false, length = 25)
     private String login;
-    @Column(name="senha", nullable = false, length = 22)
+    @Column(name="senha", nullable = false, length = 50)
     private String senha;
     @Column(name="permissao", nullable = true, length = 36)
     private String permissao;
@@ -64,9 +70,9 @@ public class Pessoa implements Serializable {
     @JoinColumn(name = "idSexo", referencedColumnName = "idSexo")
     private Sexo sexo;
     
-    @OneToMany(mappedBy = "telefone", fetch = FetchType.LAZY)
-    @ForeignKey(name = "PessoaTelefone")
-    private List<Telefone> telefones;
+//    @OneToMany(mappedBy = "telefone", fetch = FetchType.LAZY)
+//    @ForeignKey(name = "PessoaTelefone")
+//    private List<Telefone> telefones;
     
         
     public Pessoa() {
@@ -161,20 +167,45 @@ public class Pessoa implements Serializable {
         this.permissao = permissao;
     }
 
-    public String getSaram() {
+    public Integer getSaram() {
         return saram;
     }
 
-    public void setSaram(String saram) {
+    public void setSaram(Integer saram) {
         this.saram = saram;
     }
 
-    public List<Telefone> getTelefones() {
-        return telefones;
+    public String getTelefonePessoal() {
+        return telefonePessoal;
     }
 
-    public void setTelefones(List<Telefone> telefones) {
-        this.telefones = telefones;
+    public void setTelefonePessoal(String telefonePessoal) {
+        this.telefonePessoal = telefonePessoal;
+    }
+
+    public String getTelefoneSecao() {
+        return telefoneSecao;
+    }
+
+    public void setTelefoneSecao(String telefoneSecao) {
+        this.telefoneSecao = telefoneSecao;
+    }
+
+    
+//    public List<Telefone> getTelefones() {
+//        return telefones;
+//    }
+//
+//    public void setTelefones(List<Telefone> telefones) {
+//        this.telefones = telefones;
+//    }
+
+    public String getSecao() {
+        return secao;
+    }
+
+    public void setSecao(String secao) {
+        this.secao = secao;
     }
     
     

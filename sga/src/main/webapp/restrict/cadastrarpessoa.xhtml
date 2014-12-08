@@ -12,12 +12,10 @@
             <br/>
             <f:view>
                 <h:form>
-                    <p:wizard nextLabel="Próxima aba" backLabel="Aba Anterior">
-                        <p:tab title="Informações Básicas" id="infoPessoal">
                             <p:panel header="Informações Básicas da Pessoa">
                                 <p:growl id="msg0"/>
 
-                                <h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid" id="grid0">
+                                <h:panelGrid columns="2" cellpadding="15" styleClass="panelGrid" id="grid0">
                                     <h:outputLabel/>
                                     <h:inputHidden id="idPessoa" value="#{mbPessoa.pessoa.idPessoa}"/>
 
@@ -31,19 +29,21 @@
                                         <f:selectItems value="#{bbSexo.sexos}" var="sexo" itemValue="#{sexo.idSexo}" 
                                                        itemLabel="#{sexo.descricao}"/>
                                     </p:selectOneMenu>
+                                    
+                                    <h:outputLabel for="secao" value="Seção.:"/>
+                                    <p:inputText id="secao" size="20" value="#{mbPessoa.pessoa.secao}"
+                                                 onkeyup="this.value = this.value.toUpperCase()" />
 
-                                    <h:outputLabel for="telefoneSecao" value="Telefone da Seção.:"/>
-                                    <p:inputMask id="telefoneSecao" size="15" value="#{mbPessoa.telefoneSecao.telefone}" 
-                                                 required="true" mask="(99) 9999-99999"
-                                                 requiredMessage="O campo [Telefone da Seção] é obrigatório" 
-                                                 onkeyup="this.value = this.value.toUpperCase()"/>
+                                    <h:outputLabel for="telefoneSecao" value="Telefone Seção.:"/>
+                                    <p:inputMask id="telefoneSecao" size="15" value="#{mbPessoa.pessoa.telefoneSecao}" 
+                                                 required="true" mask="(99) 9999-9999?9"
+                                                 requiredMessage="O campo [Telefone Seção] é obrigatório"/>
                                     
                                     <h:outputLabel for="telefonePessoal" value="Telefone Pessoal.:"/>
-                                    <p:inputMask id="telefonePessoal" size="15" value="#{mbPessoa.telefonePessoal.telefone}" 
-                                                 required="true" mask="(99) 9999-99999"
-                                                 requiredMessage="O campo [Telefone Pessoal] é obrigatório" 
-                                                 onkeyup="this.value = this.value.toUpperCase()"/>
-
+                                    <p:inputMask id="telefonePessoal" size="15" value="#{mbPessoa.pessoa.telefonePessoal}" 
+                                                 required="true" mask="(99) 9999-9999?9"
+                                                 requiredMessage="O campo [Telefone Pessoal] é obrigatório" />
+                       
                                     <h:outputLabel for="email" value="E-mail.:"/>
                                     <p:inputText id="email" size="40" value="#{mbPessoa.pessoa.email}" required="true"
                                                  requiredMessage="O campo [E-mail] é obrigatório">
@@ -61,6 +61,14 @@
                                     <p:calendar id="dataNascimento" value="#{mbPessoa.pessoa.dataNascimento}" required="true"
                                                 requiredMessage="O campo [Data de Nascimento] é obrigatório"
                                                 locale="pt_BR" navigator="true" effect="explode" pattern="dd/MM/yyyy"/>
+                                    
+                                    <h:outputLabel for="OM" value="Organização Militar.:"/>
+                                    <p:inputText id="OM" size="50" value="#{mbPessoa.endereco.OM}"
+                                                 onkeyup="this.value = this.value.toUpperCase()"/>
+                                    
+                                    <h:outputLabel for="saram" value="Saram.:"/>
+                                    <p:inputMask id="saram" size="10" value="#{mbPessoa.pessoa.saram}"
+                                                 mask="9999999"/>
                                     
                                     <h:outputLabel for="login" value="Login.:"/>
                                     <p:inputText id="loginPessoa" size="25" maxlength="25" 
@@ -80,6 +88,8 @@
                                                  value="#{mbPessoa.pessoa.senha}" weakLabel="Senha fraca" 
                                                  goodLabel="Senha normal" strongLabel="Senha forte"
                                                  feedback="true"/>
+                                    
+
                                     <p:panel>
                                         <p:commandButton value="Salvar" action="#{mbPessoa.addPessoa}" 
                                                          image="ui-icon ui-icon-disk" update="@form"/>
@@ -88,66 +98,7 @@
                                     </p:panel>
                                 </h:panelGrid>
                             </p:panel>
-                        </p:tab>
-                        <p:tab title="Informações do Endereço" id="infoEndereco">
-                            <p:panel header="Informações do Endereço">
-                                <p:growl id="msg1"/>
-                                <h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid" id="grid1">
-                                    <h:outputLabel for="uf" value="Estado.:"/>
-                                    <p:selectOneMenu id="estado" value="#{mbPessoa.endereco.estado.idEstado}">
-                                        <f:selectItems value="#{bbEstado.estados}" var="estado" itemValue="#{estado.idEstado}" 
-                                                       itemLabel="#{estado.descricao}"/>
-                                    </p:selectOneMenu>
-                                    
-                                    <h:outputLabel for="cidade" value="Cidade.:"/>
-                                    <p:selectOneMenu id="cidade" value="#{mbPessoa.endereco.cidade.idCidade}">
-                                        <f:selectItems value="#{bbCidade.cidades}" var="cidade" itemValue="#{cidade.idCidade}" 
-                                                       itemLabel="#{cidade.nome}"/>
-                                    </p:selectOneMenu>
-                                    
-                                    <h:outputLabel for="bairro" value="Bairro.:"/>
-                                    <p:inputText id="bairro" size="60" value="#{mbPessoa.endereco.bairro}"
-                                                 onkeyup="this.value = this.value.toUpperCase()"/>
-                                    
-                                    <h:outputLabel for="tipoEndereco" value="Tipo de Endereço.:"/>
-                                    <p:selectOneMenu id="idTipoEndereco" value="#{mbPessoa.endereco.tipoEndereco.idTipoEndereco}">
-                                        <f:selectItems value="#{bbTipoEndereco.tipoEnderecos}" var="tipoEndereco" itemValue="#{tipoEndereco.idTipoEndereco}" 
-                                                       itemLabel="#{tipoEndereco.descricao}"/>
-                                    </p:selectOneMenu>
-                                    
-                                    <h:outputLabel for="tipoLogradouro" value="Logradouro.:"/>
-                                    <p:selectOneMenu id="idTipoLogradouro" value="#{mbPessoa.endereco.tipoLogradouro.idTipoLogradouro}">
-                                        <f:selectItems value="#{bbTipoLogradouro.tipoLogradouros}" var="tipoLogradouro" itemValue="#{tipoLogradouro.idTipoLogradouro}" 
-                                                       itemLabel="#{tipoLogradouro.descricao}"/>
-                                    </p:selectOneMenu>
-                                    
-                                    <h:outputLabel for="nomeLogradouro" value="Nome do Logradouro.:"/>
-                                    <p:inputText id="nomeLogradouro" size="75" value="#{mbPessoa.endereco.nomeLogradouro}"
-                                                 onkeyup="this.value = this.value.toUpperCase()"/>
-                                    
-                                    <h:outputLabel for="cep" value="CEP.:"/>
-                                    <p:inputMask id="cep" size="10" value="#{mbPessoa.endereco.cep}" 
-                                                 mask="99.999-999">
-                                    </p:inputMask>
-                                    
-                                    <h:outputLabel for="numero" value="Número.:"/>
-                                    <p:inputText id="numero" size="8" value="#{mbPessoa.endereco.numero}"
-                                                 onkeyup="this.value = this.value.toUpperCase()"/>
-                                    
-                                    <h:outputLabel for="complemento" value="Complemento.:"/>
-                                    <p:inputText id="complemento" size="15" value="#{mbPessoa.endereco.complemento}"
-                                                 onkeyup="this.value = this.value.toUpperCase()"/>
-                                    
-                                    <p:panel>
-                                        <p:commandButton value="Salvar" action="#{mbPessoa.addPessoa}" 
-                                                         image="ui-icon ui-icon-disk" update="@form"/>
-                                        <p:commandButton value="Cancelar" actionListener="#{mbPessoa.limpPessoa}" 
-                                                         image="ui-icon ui-icon-close" update="@form"/>
-                                    </p:panel>
-                                </h:panelGrid>
-                            </p:panel>
-                        </p:tab>
-                    </p:wizard>
+                        
                 </h:form>
             </f:view>
         </p:fieldset>

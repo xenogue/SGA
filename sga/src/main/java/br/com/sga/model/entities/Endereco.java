@@ -25,16 +25,16 @@ public class Endereco {
     @GeneratedValue
     @Column(name = "idEndereco", nullable = false)
     private Integer idEndereco;
-    @Column(name = "bairro")
-    private String bairro;
-    @Column(name = "cep")
-    private String cep;
-    @Column(name = "complemento")
-    private String complemento;
-    @Column(name = "nomeLogradouro")
-    private String nomeLogradouro;
-    @Column(name = "numero")
-    private String numero;
+    @Column(name = "OM")
+    private String OM;
+//    @Column(name = "cep")
+//    private String cep;
+//    @Column(name = "complemento")
+//    private String complemento;
+//    @Column(name = "nomeLogradouro")
+//    private String nomeLogradouro;
+//    @Column(name = "numero")
+//    private String numero;
     
     //optional = Pode cadastrar uma pessoa sem endereço
     @OneToOne(optional = true, fetch = FetchType.LAZY)
@@ -42,31 +42,31 @@ public class Endereco {
     @JoinColumn(name = "idPessoa", referencedColumnName = "idPessoa")
     private Pessoa pessoa;
     
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @ForeignKey(name = "EnderecoTipoLogradouro")
-    @JoinColumn(name = "idTipoLogradouro", referencedColumnName = "idTipoLogradouro")
-    private TipoLogradouro tipoLogradouro;
-    
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @ForeignKey(name = "EnderecoTipoendereco")
-    @JoinColumn(name = "idTipoEndereco", referencedColumnName = "idTipoEndereco")
-    private TipoEndereco tipoEndereco;
-    
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @ForeignKey(name = "EnderecoEstado")
-    @JoinColumn(name = "idEstado", referencedColumnName = "idEstado")
-    private Estado estado;
-    
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @ForeignKey(name = "EnderecoCidade")
-    @JoinColumn(name = "idCidade", referencedColumnName = "idCidade")
-    private Cidade cidade;
+//    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+//    @ForeignKey(name = "EnderecoTipoLogradouro")
+//    @JoinColumn(name = "idTipoLogradouro", referencedColumnName = "idTipoLogradouro")
+//    private TipoLogradouro tipoLogradouro;
+//    
+//    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+//    @ForeignKey(name = "EnderecoTipoendereco")
+//    @JoinColumn(name = "idTipoEndereco", referencedColumnName = "idTipoEndereco")
+//    private TipoEndereco tipoEndereco;
+//    
+//    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+//    @ForeignKey(name = "EnderecoEstado")
+//    @JoinColumn(name = "idEstado", referencedColumnName = "idEstado")
+//    private Estado estado;
+//    
+//    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+//    @ForeignKey(name = "EnderecoCidade")
+//    @JoinColumn(name = "idCidade", referencedColumnName = "idCidade")
+//    private Cidade cidade;
 
     public Endereco() {
-        this.cidade = new Cidade();
-        this.estado = new Estado();
-        this.tipoLogradouro = new TipoLogradouro();
-        this.tipoEndereco = new TipoEndereco();
+//        this.cidade = new Cidade();
+//        this.estado = new Estado();
+//        this.tipoLogradouro = new TipoLogradouro();
+//        this.tipoEndereco = new TipoEndereco();
         this.pessoa = new Pessoa();
     }
 
@@ -78,45 +78,6 @@ public class Endereco {
         this.idEndereco = idEndereco;
     }
 
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
-    public String getNomeLogradouro() {
-        return nomeLogradouro;
-    }
-
-    public void setNomeLogradouro(String nomeLogradouro) {
-        this.nomeLogradouro = nomeLogradouro;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
 
     public Pessoa getPessoa() {
         return pessoa;
@@ -126,38 +87,14 @@ public class Endereco {
         this.pessoa = pessoa;
     }
 
-    public TipoLogradouro getTipoLogradouro() {
-        return tipoLogradouro;
+    public String getOM() {
+        return OM;
     }
 
-    public void setTipoLogradouro(TipoLogradouro tipoLogradouro) {
-        this.tipoLogradouro = tipoLogradouro;
+    public void setOM(String OM) {
+        this.OM = OM;
     }
-
-    public TipoEndereco getTipoEndereco() {
-        return tipoEndereco;
-    }
-
-    public void setTipoEndereco(TipoEndereco tipoEndereco) {
-        this.tipoEndereco = tipoEndereco;
-    }
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
-    public Cidade getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(Cidade cidade) {
-        this.cidade = cidade;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 5;

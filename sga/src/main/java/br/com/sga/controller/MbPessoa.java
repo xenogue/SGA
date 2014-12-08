@@ -5,7 +5,6 @@ import br.com.sga.model.dao.HibernateDAO;
 import br.com.sga.model.dao.InterfaceDAO;
 import br.com.sga.model.entities.Endereco;
 import br.com.sga.model.entities.Pessoa;
-import br.com.sga.model.entities.Telefone;
 import br.com.sga.util.FacesContextUtil;
 import java.io.Serializable;
 import java.util.Date;
@@ -31,12 +30,9 @@ public class MbPessoa implements Serializable {
     private String confereSenha;
     private Pessoa pessoa = new Pessoa();
     private Endereco endereco = new Endereco();
-    private Telefone telefoneSecao = new Telefone();
-    private Telefone telefonePessoal = new Telefone();
     private List<Pessoa> pessoas;
     private List<Endereco> enderecos;
-    private List<Telefone> telefones;
-
+ 
     public MbPessoa() {
     }
     
@@ -50,16 +46,9 @@ public class MbPessoa implements Serializable {
         return enderecoDAO;
     }
     
-    private InterfaceDAO<Telefone> telefoneDAO(){
-        InterfaceDAO<Telefone> telefoneDAO = new HibernateDAO<Telefone>(Telefone.class, FacesContextUtil.getRequestSession());
-        return telefoneDAO;
-    }
-    
     public String limpPessoa(){
         pessoa = new Pessoa();
         endereco = new Endereco();
-        telefonePessoal = new Telefone();
-        telefoneSecao = new Telefone();
         return editPessoa();
     }
     
@@ -82,8 +71,8 @@ public class MbPessoa implements Serializable {
     private void insertPessoa() {
         if (comparaSenha() && comparaLogin())
         {
+            //insereTelefones();
             pessoaDAO().save(pessoa);
-            insereTelefones();
             endereco.setPessoa(pessoa);
             enderecoDAO().save(endereco);
             FacesContext.getCurrentInstance().addMessage(null,
@@ -139,30 +128,6 @@ public class MbPessoa implements Serializable {
         this.endereco = endereco;
     }
 
-    public List<Telefone> getTelefones() {
-        return telefones;
-    }
-
-    public void setTelefones(List<Telefone> telefones) {
-        this.telefones = telefones;
-    }
-
-    public Telefone getTelefoneSecao() {
-        return telefoneSecao;
-    }
-
-    public void setTelefoneSecao(Telefone telefoneSecao) {
-        this.telefoneSecao = telefoneSecao;
-    }
-
-    public Telefone getTelefonePessoal() {
-        return telefonePessoal;
-    }
-
-    public void setTelefonePessoal(Telefone telefonePessoal) {
-        this.telefonePessoal = telefonePessoal;
-    }
-
     public String getConfereSenha() {
         return confereSenha;
     }
@@ -186,7 +151,7 @@ public class MbPessoa implements Serializable {
     private boolean comparaLogin(){
         DetachedCriteria criteriacriteria = DetachedCriteria.forClass(Pessoa.class).add( Property.forName("login").eq(pessoa.getLogin()) );
         pessoas = pessoaDAO().getListByDetachedCriteria(criteriacriteria);
-        if(! pessoas.equals(null)){
+        if(pessoas.size() != 0){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Login já cadastrado no sistema, favor alterá-lo.", ""));
             return false;
@@ -194,19 +159,19 @@ public class MbPessoa implements Serializable {
             
         return true;
     }    
-
-    private void insereTelefones() {
-        if(telefonePessoal != null) {
-            telefonePessoal.setPessoa(pessoa);
-            telefonePessoal.setTipoTelefone("pessoal");
-            telefoneDAO().save(telefoneSecao);
-        }
-        if(telefoneSecao != null) {
-            telefoneSecao.setPessoa(pessoa);
-            telefoneSecao.setTipoTelefone("trabalho");
-            telefoneDAO().save(telefoneSecao);
-        }
-        
-    }
-    
+   
 }
+
+//    private void insereTelefones() {
+//        if(telefonePessoal != null) {
+//            telefonePessoal.setPessoa(pessoa);
+//            telefonePessoal.setTipoTelefone("pessoal");
+//            telefones.add(telefonePessoal);
+//        }
+//        if(telefoneSecao != null) {
+//            telefoneSecao.setPessoa(pessoa);
+//            telefoneSecao.setTipoTelefone("trabalho");
+//            telefones.add(telefoneSecao);
+//        }
+//        
+//    }
