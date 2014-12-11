@@ -2,6 +2,7 @@ package br.com.sga.model.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,39 +17,39 @@ import org.hibernate.annotations.ForeignKey;
  * @author rios
  */
 @Entity
-@Table(name="sexo")
-public class Sexo implements Serializable{
+@Table(name="papel")
+public class Papel implements Serializable{
 
-    public Sexo() {
+    public Papel() {
     }
         
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue
-    @Column(name="idSexo", nullable = false)
-    private Integer idSexo;
-    @Column(name="descricao", unique = true, nullable = false, length = 9)
-    private String descricao;
+    @Column(name="idPapel", nullable = false)
+    private Integer idPapel;
+    @Column(name="papel", unique = true, nullable = false, length = 20)
+    private String papel;
     
-    @OneToMany(mappedBy = "sexo", fetch = FetchType.LAZY)
-    @ForeignKey(name = "PessoaSexo")
+    @OneToMany(mappedBy = "papel", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ForeignKey(name = "PessoaPapel")
     private List<Pessoa> pessoas;
 
-    public Integer getIdSexo() {
-        return idSexo;
+    public Integer getIdPapel() {
+        return idPapel;
     }
 
-    public void setIdSexo(Integer idSexo) {
-        this.idSexo = idSexo;
+    public void setIdPapel(Integer idPapel) {
+        this.idPapel = idPapel;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getPapel() {
+        return papel;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setPapel(String papel) {
+        this.papel = papel;
     }
 
     public List<Pessoa> getPessoas() {
@@ -63,7 +64,7 @@ public class Sexo implements Serializable{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + (this.idSexo != null ? this.idSexo.hashCode() : 0);
+        hash = 29 * hash + (this.idPapel != null ? this.idPapel.hashCode() : 0);
         return hash;
     }
 
@@ -75,8 +76,8 @@ public class Sexo implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Sexo other = (Sexo) obj;
-        if (this.idSexo != other.idSexo && (this.idSexo == null || !this.idSexo.equals(other.idSexo))) {
+        final Papel other = (Papel) obj;
+        if (this.idPapel != other.idPapel && (this.idPapel == null || !this.idPapel.equals(other.idPapel))) {
             return false;
         }
         return true;

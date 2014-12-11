@@ -26,10 +26,10 @@
         <!--ENTIDADES-->
         <!-- LISTA DE ENTIDADES -->
         <!--<mapping class="br.com.sga.model.entities.Cidade"/>-->        
-        <mapping class="br.com.sga.model.entities.Endereco"/>      
+        <!--<mapping class="br.com.sga.model.entities.Endereco"/>-->      
         <!--<mapping class="br.com.sga.model.entities.Estado"/>-->      
         <mapping class="br.com.sga.model.entities.Pessoa"/>               
-        <mapping class="br.com.sga.model.entities.Sexo"/>
+        <mapping class="br.com.sga.model.entities.Papel"/>
 <!--        <mapping class="br.com.sga.model.entities.TipoEndereco"/>
         <mapping class="br.com.sga.model.entities.TipoLogradouro"/>-->
         <!--<mapping class="br.com.sga.model.entities.Telefone"/>-->

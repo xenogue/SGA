@@ -3,15 +3,16 @@ package br.com.sga.controller;
 import br.com.sga.conversores.ConverterSHA1;
 import br.com.sga.model.dao.HibernateDAO;
 import br.com.sga.model.dao.InterfaceDAO;
-import br.com.sga.model.entities.Endereco;
+import br.com.sga.model.entities.Papel;
 import br.com.sga.model.entities.Pessoa;
 import br.com.sga.util.FacesContextUtil;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.criterion.DetachedCriteria;
@@ -21,18 +22,25 @@ import org.hibernate.criterion.Property;
  *
  * @author rios
  */
+
 @ManagedBean
-@SessionScoped  //A página será mudada
+//@SessionScoped  //A página será mudada
+@RequestScoped
 public class MbPessoa implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
     private String confereSenha;
-    private Pessoa pessoa = new Pessoa();
-    private Endereco endereco = new Endereco();
+    
+//    @ManagedProperty(value = "#{pessoaMB}")
+//    private MbPessoa pessoaMB;
+
+//    private Pessoa pessoa = new Pessoa();
+    private Pessoa pessoa;
     private List<Pessoa> pessoas;
-    private List<Endereco> enderecos;
- 
+    private List<String> sexos;
+    private EnumPapel papel;
+    
     public MbPessoa() {
     }
     
@@ -41,14 +49,8 @@ public class MbPessoa implements Serializable {
         return pessoaDAO;
     }
     
-    private InterfaceDAO<Endereco> enderecoDAO(){
-        InterfaceDAO<Endereco> enderecoDAO = new HibernateDAO<Endereco>(Endereco.class, FacesContextUtil.getRequestSession());
-        return enderecoDAO;
-    }
-    
     public String limpPessoa(){
         pessoa = new Pessoa();
-        endereco = new Endereco();
         return editPessoa();
     }
     
@@ -57,10 +59,9 @@ public class MbPessoa implements Serializable {
     }
     
     public String addPessoa(){
-        Date date = new Date();
-        pessoa.setDataCadastro(date);
         if(pessoa.getIdPessoa() == null || pessoa.getIdPessoa() == 0 ) {
-            
+            Date date = new Date();
+            pessoa.setDataCadastro(date);
             insertPessoa();
         } else {
             updatePessoa();
@@ -68,31 +69,41 @@ public class MbPessoa implements Serializable {
         return null;
     }
 
-    private void insertPessoa() {
-        if (comparaSenha() && comparaLogin())
+    private String insertPessoa() {
+        boolean alteraLogin = false;
+        if (comparaSenha() && comparaLogin(alteraLogin))
         {
-            //insereTelefones();
             pessoaDAO().save(pessoa);
-            endereco.setPessoa(pessoa);
-            enderecoDAO().save(endereco);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Gravação efetuada com sucesso", ""));
+            return "/restrict/cadastrarpessoa.faces";
         }
+        return null;
     }
 
-    private void updatePessoa() {
-        pessoaDAO().update(pessoa);
-        enderecoDAO().save(endereco);
-        FacesContext.getCurrentInstance().addMessage(null,
+    private String updatePessoa() {
+        boolean alteraLogin = true;
+        if (comparaSenha() && comparaLogin(alteraLogin))
+        {
+            pessoaDAO().merge(pessoa);
+            FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Atualização efetuada com sucesso", ""));
+            return "/restrict/consultarpessoas.faces";
+        }
+        return null;
     }
     
-    public void deletePessoa(){
+    public String deletePessoa() {
         pessoaDAO().remove(pessoa);
-        enderecoDAO().remove(endereco);
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Pessoa excluída com sucesso", ""));
+        return "/restrict/consultarpessoas.faces";
+
     }
+
+//    public void setPessoaMB(MbPessoa pessoaMB) {
+//        this.pessoaMB = pessoaMB;
+//    }
 
     public List<Pessoa> getPessoas() {
         pessoas = pessoaDAO().getEntities();
@@ -103,29 +114,16 @@ public class MbPessoa implements Serializable {
         this.pessoas = pessoas;
     }
 
-    public List<Endereco> getEnderecos() {
-        enderecos = enderecoDAO().getEntities();
-        return enderecos;
-    }
-
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
-    }
-
     public Pessoa getPessoa() {
+        if(pessoa == null){
+            pessoa = new Pessoa();
+        }
+
         return pessoa;
     }
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
     }
 
     public String getConfereSenha() {
@@ -139,19 +137,32 @@ public class MbPessoa implements Serializable {
     private boolean comparaSenha() {
         pessoa.setSenha(ConverterSHA1.cipher(pessoa.getSenha()));
         if (pessoa.getSenha() == null ? confereSenha == null : pessoa.getSenha().equals(ConverterSHA1.cipher(confereSenha))) {
-            pessoa.setPermissao("ROLE_USER");
+            return true;
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "As senhas não conferem.", ""));
             return false;
         }
-        return true;
+        
     }
     
-    private boolean comparaLogin(){
+//    public void retornaPerfilUsuarioLogado() {
+//        pessoaMB.get
+//    }
+    
+    private boolean comparaLogin(boolean alteracaoLogin){
         DetachedCriteria criteriacriteria = DetachedCriteria.forClass(Pessoa.class).add( Property.forName("login").eq(pessoa.getLogin()) );
         pessoas = pessoaDAO().getListByDetachedCriteria(criteriacriteria);
         if(pessoas.size() != 0){
+            if(alteracaoLogin == true) {
+                Pessoa p = pessoas.get(0);
+                boolean loginExiste = p.equals(pessoa);
+                if(loginExiste == true){
+                    FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Login já cadastrado no sistema, favor alterá-lo.", ""));
+                    return false;
+                }
+            }
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Login já cadastrado no sistema, favor alterá-lo.", ""));
             return false;
@@ -159,19 +170,19 @@ public class MbPessoa implements Serializable {
             
         return true;
     }    
+    
+    public boolean isAdm() {
+        return EnumPapel.ADM.equals(papel);
+    }
+    public boolean isGerente() {
+        return EnumPapel.GERENTE.equals(papel);
+    }
+    public boolean isUsuarioSimples() {
+        return EnumPapel.USUARIO_SIMPLES.equals(papel);
+    }
+    public boolean isUsuarioPodeVerSalario(){
+        return pessoa.isAdm() && pessoa.isRH();
+    }  //rendered="#{relatorioMB.usuarioPodeVerSalario}”
+
    
 }
-
-//    private void insereTelefones() {
-//        if(telefonePessoal != null) {
-//            telefonePessoal.setPessoa(pessoa);
-//            telefonePessoal.setTipoTelefone("pessoal");
-//            telefones.add(telefonePessoal);
-//        }
-//        if(telefoneSecao != null) {
-//            telefoneSecao.setPessoa(pessoa);
-//            telefoneSecao.setTipoTelefone("trabalho");
-//            telefones.add(telefoneSecao);
-//        }
-//        
-//    }

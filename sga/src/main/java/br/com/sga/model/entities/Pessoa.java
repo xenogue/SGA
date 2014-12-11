@@ -2,7 +2,7 @@ package br.com.sga.model.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.ForeignKey;
@@ -29,54 +27,42 @@ public class Pessoa implements Serializable {
     @GeneratedValue
     @Column(name="idPessoa", nullable = false)
     private Integer idPessoa;
-    @Column(name="nome", nullable = false, length = 80)
+    @Column(name="nome", nullable = true, length = 80)
     private String nome;
-    @Column(name="email", nullable = false, length = 80)
+    @Column(name="email", nullable = true, length = 80)
     private String email;
-    @Column(name="cpf", nullable = false, length = 14)
+    @Column(name="cpf", nullable = true, length = 14)
     private String cpf;
-    @Column(name="dataNascimento", nullable = false)
+    @Column(name="dataNascimento", nullable = true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataNascimento;
-    @Column(name="dataCadastro", nullable = false)
+    @Column(name="dataCadastro", nullable = true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataCadastro;
-    @Column(name="saram", nullable = false)
+    @Column(name="saram", nullable = true)
     private Integer saram;
-    @Column(name="secao", nullable = false)
+    @Column(name="secao", nullable = true)
     private String secao;
-    @Column(name="telefonePessoal", nullable = false)
+    @Column(name="telefonePessoal", nullable = true)
     private String telefonePessoal;
-    @Column(name="telefoneSecao", nullable = false)
+    @Column(name="telefoneSecao", nullable = true)
     private String telefoneSecao;
     
-    @Column(name="login", unique= true, nullable = false, length = 25)
+    @Column(name="login", unique= true, nullable = true, length = 25)
     private String login;
-    @Column(name="senha", nullable = false, length = 50)
+    @Column(name="senha", nullable = true, length = 50)
     private String senha;
-    @Column(name="permissao", nullable = true, length = 36)
-    private String permissao;
-//    @Column(name="role", unique= true, nullable = false, length = 25)
-//    private String role;
+    @Column(name="sexo", nullable = true, length = 9)
+    private String sexo;
+    @Column(name="OM", nullable = true, length = 100)
+    private String OM;
+
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
+    @ForeignKey(name = "PessoaPapel") 
+    @JoinColumn(name="idPapel", referencedColumnName = "idPapel")
+    private Papel papel;
     
-    
-    
-    @OneToOne(mappedBy = "pessoa", fetch = FetchType.LAZY)
-    @ForeignKey(name = "EnderecoPessoa")
-    private Endereco endereco;
-    
-    @ManyToOne(optional = false)
-    @ForeignKey(name = "PessoaSexo")
-    @JoinColumn(name = "idSexo", referencedColumnName = "idSexo")
-    private Sexo sexo;
-    
-//    @OneToMany(mappedBy = "telefone", fetch = FetchType.LAZY)
-//    @ForeignKey(name = "PessoaTelefone")
-//    private List<Telefone> telefones;
-    
-        
     public Pessoa() {
-        this.sexo = new Sexo();
     }
 
     public Integer getIdPessoa() {
@@ -127,22 +113,6 @@ public class Pessoa implements Serializable {
         this.dataCadastro = dataCadastro;
     }
 
-    public Sexo getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(Sexo sexo) {
-        this.sexo = sexo;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-
     public String getLogin() {
         return login;
     }
@@ -157,14 +127,6 @@ public class Pessoa implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public String getPermissao() {
-        return permissao;
-    }
-
-    public void setPermissao(String permissao) {
-        this.permissao = permissao;
     }
 
     public Integer getSaram() {
@@ -191,15 +153,6 @@ public class Pessoa implements Serializable {
         this.telefoneSecao = telefoneSecao;
     }
 
-    
-//    public List<Telefone> getTelefones() {
-//        return telefones;
-//    }
-//
-//    public void setTelefones(List<Telefone> telefones) {
-//        this.telefones = telefones;
-//    }
-
     public String getSecao() {
         return secao;
     }
@@ -207,8 +160,33 @@ public class Pessoa implements Serializable {
     public void setSecao(String secao) {
         this.secao = secao;
     }
-    
-    
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getOM() {
+        return OM;
+    }
+
+    public void setOM(String OM) {
+        this.OM = OM;
+    }
+
+    public Papel getPapel() {
+        if (papel == null) {
+            papel = new Papel();
+        }
+        return papel;
+    }
+
+    public void setPapel(Papel papel) {
+        this.papel = papel;
+    }
     
     @Override
     public int hashCode() {
@@ -231,7 +209,13 @@ public class Pessoa implements Serializable {
         }
         return true;
     }
-    
-    
+
+    public boolean isAdm() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public boolean isRH() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
