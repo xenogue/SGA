@@ -1,6 +1,6 @@
 package br.com.sga.support;
 
-import br.com.sga.model.entities.Pessoa;
+import br.com.sga.model.entities.Usuario;
 import br.com.sga.util.FacesContextUtil;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -22,10 +22,10 @@ import org.springframework.security.core.userdetails.User;
 public class BbUsuarioLogado implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    private Pessoa usuario;
+    private Usuario usuario;
 
     public BbUsuarioLogado() {
-        usuario = new Pessoa();
+        usuario = new Usuario();
         SecurityContext context = SecurityContextHolder.getContext();
         if(context instanceof SecurityContext) 
         {
@@ -37,12 +37,12 @@ public class BbUsuarioLogado implements Serializable {
         }
     }
     
-    public Pessoa procuraPessoa(){
+    public Usuario procuraUsuario(){
         String login = getLoginUsuarioLogado();
         Session session = FacesContextUtil.getRequestSession();
-        Query query = session.createQuery("from Pessoa user where user.login like ? ");
+        Query query = session.createQuery("from Usuario user where user.login like ? ");
         query.setString(0,login);
-        return (Pessoa) query.uniqueResult();
+        return (Usuario) query.uniqueResult();
     }
 
     private String getLoginUsuarioLogado() {

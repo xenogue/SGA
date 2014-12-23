@@ -11,9 +11,9 @@
     <h:head>
         <title>Visual</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet library="css" name="semeru.css"/>
-        <!--<link href="./../resources/restrict/css/semeru.css" rel="stylesheet" type="text/css" />-->
-        <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />    
+        <!--<h:outputStylesheet library="css" name="semeru.css"/>-->
+        <link href="./../resources/css/semeru.css" rel="stylesheet" type="text/css" />
+        <link href="./../resources/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />    
     </h:head>
 
     <h:body>
@@ -24,7 +24,7 @@
             <div id="logoff">
                 <h:form>
                     <br/>
-                    <h5><h:outputText value="SEJA BEM VINDO(A) #{bbUsuarioLogado.procuraPessoa().getNome()}!"/></h5>
+                    <h5><h:outputText value="SEJA BEM VINDO(A) #{bbUsuarioLogado.procuraUsuario().getNome()}!"/></h5>
                     <!--<h5><h:outputText value="SEJA BEM VINDO(A) #{facesContext.getCurrentInstance().getExternalContext().getUserPrincipal().name} !"/></h5>-->
                     <br/>
                     <a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
@@ -41,11 +41,12 @@
                 <p:menubar styleClass="labelmenu">
 
                     <p:submenu label="Cadastros">  
-                        <p:menuitem value="Cidades" url="/restrict/cadastrarcidade.faces"/>                        
-                        <p:menuitem value="Pessoas" action="#{mbPessoa.limpPessoa}" ajax="false"/>                        
+                        <p:menuitem value="Usuário" action="#{mbUsuario.limpUsuario}" ajax="false"/>                        
                     </p:submenu> 
-                    <p:submenu label="Consultas">  
-                        <p:menuitem value="Pessoas" url="/restrict/consultarpessoas.faces"/>
+                    <p:submenu label="Consultas">
+                        <p:menuitem value="PDF" url="/paginas/pesquisarpdf.faces"/>
+                        <p:menuitem value="Usuários" url="/paginas/consultarusuarios.faces"/>
+                        <p:menuitem value="Lazy" url="/paginas/lazy.faces"/>
                     </p:submenu>                                      
                 </p:menubar> 
             </h:form>           

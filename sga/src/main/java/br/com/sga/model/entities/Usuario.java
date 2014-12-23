@@ -19,14 +19,14 @@ import org.hibernate.annotations.ForeignKey;
  * @author rios
  */
 @Entity
-@Table(name="pessoa")
-public class Pessoa implements Serializable {
+@Table(name="usuario")
+public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
-    @Column(name="idPessoa", nullable = false)
-    private Integer idPessoa;
+    @Column(name="idUsuario", nullable = false)
+    private Integer idUsuario;
     @Column(name="nome", nullable = true, length = 80)
     private String nome;
     @Column(name="email", nullable = true, length = 80)
@@ -58,19 +58,19 @@ public class Pessoa implements Serializable {
     private String OM;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY)
-    @ForeignKey(name = "PessoaPapel") 
+    @ForeignKey(name = "UsuarioPapel") 
     @JoinColumn(name="idPapel", referencedColumnName = "idPapel")
     private Papel papel;
     
-    public Pessoa() {
+    public Usuario() {
     }
 
-    public Integer getIdPessoa() {
-        return idPessoa;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdPessoa(Integer idPessoa) {
-        this.idPessoa = idPessoa;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNome() {
@@ -191,7 +191,7 @@ public class Pessoa implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 79 * hash + (this.idPessoa != null ? this.idPessoa.hashCode() : 0);
+        hash = 79 * hash + (this.idUsuario != null ? this.idUsuario.hashCode() : 0);
         return hash;
     }
 
@@ -203,8 +203,8 @@ public class Pessoa implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Pessoa other = (Pessoa) obj;
-        if (this.idPessoa != other.idPessoa && (this.idPessoa == null || !this.idPessoa.equals(other.idPessoa))) {
+        final Usuario other = (Usuario) obj;
+        if (this.idUsuario != other.idUsuario && (this.idUsuario == null || !this.idUsuario.equals(other.idUsuario))) {
             return false;
         }
         return true;

@@ -33,8 +33,8 @@ public class Papel implements Serializable{
     private String papel;
     
     @OneToMany(mappedBy = "papel", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    @ForeignKey(name = "PessoaPapel")
-    private List<Pessoa> pessoas;
+    @ForeignKey(name = "UsuarioPapel")
+    private List<Usuario> usuarios;
 
     public Integer getIdPapel() {
         return idPapel;
@@ -52,12 +52,12 @@ public class Papel implements Serializable{
         this.papel = papel;
     }
 
-    public List<Pessoa> getPessoas() {
-        return pessoas;
+    public List<Usuario> getUsuarios() {
+        return usuarios;
     }
 
-    public void setPessoas(List<Pessoa> pessoas) {
-        this.pessoas = pessoas;
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
     
     

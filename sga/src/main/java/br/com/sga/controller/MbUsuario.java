@@ -4,7 +4,7 @@ import br.com.sga.conversores.ConverterSHA1;
 import br.com.sga.model.dao.HibernateDAO;
 import br.com.sga.model.dao.InterfaceDAO;
 import br.com.sga.model.entities.Papel;
-import br.com.sga.model.entities.Pessoa;
+import br.com.sga.model.entities.Usuario;
 import br.com.sga.util.FacesContextUtil;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
@@ -26,7 +27,7 @@ import org.hibernate.criterion.Property;
 @ManagedBean
 //@SessionScoped  //A página será mudada
 @RequestScoped
-public class MbPessoa implements Serializable {
+public class MbUsuario implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
@@ -36,68 +37,68 @@ public class MbPessoa implements Serializable {
 //    private MbPessoa pessoaMB;
 
 //    private Pessoa pessoa = new Pessoa();
-    private Pessoa pessoa;
-    private List<Pessoa> pessoas;
+    private Usuario usuario;
+    private List<Usuario> usuarios;
     private List<String> sexos;
     private EnumPapel papel;
     
-    public MbPessoa() {
+    public MbUsuario() {
     }
     
-    private InterfaceDAO<Pessoa> pessoaDAO(){
-        InterfaceDAO<Pessoa> pessoaDAO = new HibernateDAO<Pessoa>(Pessoa.class, FacesContextUtil.getRequestSession());
-        return pessoaDAO;
+    private InterfaceDAO<Usuario> usuarioDAO(){
+        InterfaceDAO<Usuario> usuarioDAO = new HibernateDAO<Usuario>(Usuario.class, FacesContextUtil.getRequestSession());
+        return usuarioDAO;
     }
     
-    public String limpPessoa(){
-        pessoa = new Pessoa();
-        return editPessoa();
+    public String limpUsuario(){
+        usuario = new Usuario();
+        return editUsuario();
     }
     
-    public String editPessoa(){
-        return "/restrict/cadastrarpessoa.faces";
+    public String editUsuario(){
+        return "/paginas/cadastrarusuario.faces";
     }
     
-    public String addPessoa(){
-        if(pessoa.getIdPessoa() == null || pessoa.getIdPessoa() == 0 ) {
+    public String addUsuario(){
+        if(usuario.getIdUsuario() == null || usuario.getIdUsuario() == 0 ) {
             Date date = new Date();
-            pessoa.setDataCadastro(date);
-            insertPessoa();
+            usuario.setDataCadastro(date);
+            insertUsuario();
         } else {
-            updatePessoa();
+            updateUsuario();
         }
         return null;
     }
 
-    private String insertPessoa() {
+    private String insertUsuario() {
         boolean alteraLogin = false;
         if (comparaSenha() && comparaLogin(alteraLogin))
         {
-            pessoaDAO().save(pessoa);
+            usuarioDAO().save(usuario);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Gravação efetuada com sucesso", ""));
-            return "/restrict/cadastrarpessoa.faces";
+            return "/restrict/cadastrarusuario.faces";
         }
         return null;
     }
 
-    private String updatePessoa() {
+    private String updateUsuario() {
         boolean alteraLogin = true;
         if (comparaSenha() && comparaLogin(alteraLogin))
         {
-            pessoaDAO().merge(pessoa);
+            usuarioDAO().merge(usuario);
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Atualização efetuada com sucesso", ""));
-            return "/restrict/consultarpessoas.faces";
+            return "/restrict/consultarusuario.faces";
         }
         return null;
     }
     
-    public String deletePessoa() {
-        pessoaDAO().remove(pessoa);
+    public String deleteUsuario() {
+        usuarioDAO().remove(usuario);
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Pessoa excluída com sucesso", ""));
-        return "/restrict/consultarpessoas.faces";
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário excluído com sucesso", ""));
+        return "/restrict/consultarusuario.faces";
 
     }
 
@@ -105,25 +106,27 @@ public class MbPessoa implements Serializable {
 //        this.pessoaMB = pessoaMB;
 //    }
 
-    public List<Pessoa> getPessoas() {
-        pessoas = pessoaDAO().getEntities();
-        return pessoas;
+    public List<Usuario> getUsuarios() {
+        if(usuarios == null) {
+            usuarios = usuarioDAO().getEntities();
+        }
+        return usuarios;
     }
 
-    public void setPessoas(List<Pessoa> pessoas) {
-        this.pessoas = pessoas;
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
-    public Pessoa getPessoa() {
-        if(pessoa == null){
-            pessoa = new Pessoa();
+    public Usuario getUsuario() {
+        if(usuario == null){
+            usuario = new Usuario();
         }
 
-        return pessoa;
+        return usuario;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getConfereSenha() {
@@ -135,8 +138,8 @@ public class MbPessoa implements Serializable {
     }
 
     private boolean comparaSenha() {
-        pessoa.setSenha(ConverterSHA1.cipher(pessoa.getSenha()));
-        if (pessoa.getSenha() == null ? confereSenha == null : pessoa.getSenha().equals(ConverterSHA1.cipher(confereSenha))) {
+        usuario.setSenha(ConverterSHA1.cipher(usuario.getSenha()));
+        if (usuario.getSenha() == null ? confereSenha == null : usuario.getSenha().equals(ConverterSHA1.cipher(confereSenha))) {
             return true;
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -151,16 +154,18 @@ public class MbPessoa implements Serializable {
 //    }
     
     private boolean comparaLogin(boolean alteracaoLogin){
-        DetachedCriteria criteriacriteria = DetachedCriteria.forClass(Pessoa.class).add( Property.forName("login").eq(pessoa.getLogin()) );
-        pessoas = pessoaDAO().getListByDetachedCriteria(criteriacriteria);
-        if(pessoas.size() != 0){
+        DetachedCriteria criteriacriteria = DetachedCriteria.forClass(Usuario.class).add( Property.forName("login").eq(usuario.getLogin()) );
+        List<Usuario> usuariosLogin = usuarioDAO().getListByDetachedCriteria(criteriacriteria);
+        if(usuariosLogin.size() != 0){
             if(alteracaoLogin == true) {
-                Pessoa p = pessoas.get(0);
-                boolean loginExiste = p.equals(pessoa);
-                if(loginExiste == true){
+                Usuario p = usuariosLogin.get(0);
+                boolean loginEncontrado = p.equals(usuario);
+                if(loginEncontrado == false){
                     FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Login já cadastrado no sistema, favor alterá-lo.", ""));
                     return false;
+                } else{
+                    return true;
                 }
             }
             FacesContext.getCurrentInstance().addMessage(null,
@@ -181,7 +186,7 @@ public class MbPessoa implements Serializable {
         return EnumPapel.USUARIO_SIMPLES.equals(papel);
     }
     public boolean isUsuarioPodeVerSalario(){
-        return pessoa.isAdm() && pessoa.isRH();
+        return usuario.isAdm() && usuario.isRH();
     }  //rendered="#{relatorioMB.usuarioPodeVerSalario}”
 
    

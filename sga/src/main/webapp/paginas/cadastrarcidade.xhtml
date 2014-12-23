@@ -79,8 +79,8 @@
                         </f:facet>
                         <p:commandButton value="Editar" image="ui-icon ui-icon-pencil"
                                          process="@this" update=":tbv1:formCidade">
-                            <f:setPropertyActionListener target="#{mbCidade.cidade}"
-                                                         value="#{cidade}"/>
+                            <f:setPropertyActionListener target="#{mbCidade.cidade}"   
+                                                         value="#{cidade}"/> <!--Objeto cidade será enviado ao MB / Target qual MB receberá o objeto-->
                         </p:commandButton>
                         <p:commandButton value="Remover" image="ui-icon ui-icon-close"
                                          update="@form" action="#{mbCidade.deleteCidade}">

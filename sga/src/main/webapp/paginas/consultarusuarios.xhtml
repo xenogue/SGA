@@ -10,7 +10,7 @@
     <ui:define name ="tarefas">
         <h:form>
             <p:growl id="msg0">
-                <p:dataTable id="idTabela" var="pessoa" value="#{mbPessoa.pessoas}" 
+                <p:dataTable id="idTabela" var="usuario" value="#{mbUsuario.usuarios}" 
                              paginator="true" rows="10" emptyMessage="Nenhum registro encontrado"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                              {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -19,96 +19,89 @@
                     <f:facet name="header">Lista de Usuários</f:facet>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Login"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.login}"/>
-                    </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Nome"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.nome}"/>
-                    </p:column>
-
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Sexo"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.sexo}"/>
-                    </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Perfil"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.papel.papel}"/>
-                    </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Seção"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.secao}"/>
-                    </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Telefone da Seção"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.telefoneSecao}"/>
-                    </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Telefone Pessoal"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.telefonePessoal}"/>
-                    </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="E-mail"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.email}"/>
-                    </p:column>
-
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="CPF"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.cpf}"/>
-                    </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Data de Nascimento"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.dataNascimento}"/>
-                    </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Saram"/>
-                        </f:facet>
-                        <h:outputText value="#{pessoa.saram}"/>
-                    </p:column>
-                   
-                    <p:column>
-                        <f:facet name="header">
                             <h:outputText value="Ações"/>
                         </f:facet>
                         <p:commandButton value="Editar" image="ui-icon ui-icon-pencil"
-                                         update="@form" action="#{mbPessoa.editPessoa}"
+                                         update="@form" action="#{mbUsuario.editUsuario}"
                                          ajax="false">
-                            <f:setPropertyActionListener target="#{mbPessoa.pessoa}" value="#{pessoa}"/>
-                            <f:setPropertyActionListener target="#{mbPessoa.pessoa.idPessoa}" value="#{pessoa.idPessoa}"/>
-                            <f:setPropertyActionListener target="#{mbPessoa.pessoa.papel}" value="#{mbPessoa.pessoa.papel}"/>
-                            <f:setPropertyActionListener target="#{mbPessoa.pessoa.papel.idPapel}" value="#{mbPessoa.pessoa.papel.idPapel}"/>
+                            <f:setPropertyActionListener target="#{mbUsuario.usuario}" value="#{usuario}"/>
+                            <f:setPropertyActionListener target="#{mbUsuario.usuario.idUsuario}" value="#{usuario.idUsuario}"/>
+                            <f:setPropertyActionListener target="#{mbUsuario.usuario.papel}" value="#{mbUsuario.usuario.papel}"/>
+                            <f:setPropertyActionListener target="#{mbUsuario.usuario.papel.idPapel}" value="#{mbUsuario.usuario.papel.idPapel}"/>
                         </p:commandButton>
-                        <p:commandButton value="Cancelar" image="ui-icon ui-icon-close"
-                                         update="@form" action="#{mbPessoa.limpPessoa}"/>
                     </p:column>
+                    <p:column sortBy="#{usuario.login}"
+                              filterBy="#{usuario.login}">
+                        <f:facet name="header">
+                            <h:outputText value="Login"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.login}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{usuario.nome}"
+                              filterBy="#{usuario.nome}">
+                        <f:facet name="header">
+                            <h:outputText value="Nome"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.nome}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{usuario.cpf}"
+                              filterBy="#{usuario.cpf}">
+                        <f:facet name="header">
+                            <h:outputText value="CPF"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.cpf}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{usuario.papel.papel}"
+                              filterBy="#{usuario.papel.papel}">
+                        <f:facet name="header">
+                            <h:outputText value="Perfil"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.papel.papel}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{usuario.secao}"
+                              filterBy="#{usuario.secao}">
+                        <f:facet name="header">
+                            <h:outputText value="Seção"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.secao}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{usuario.telefoneSecao}"
+                              filterBy="#{usuario.telefoneSecao}">
+                        <f:facet name="header">
+                            <h:outputText value="Telefone da Seção"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.telefoneSecao}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{usuario.telefonePessoal}"
+                              filterBy="#{usuario.telefonePessoal}">
+                        <f:facet name="header">
+                            <h:outputText value="Telefone Pessoal"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.telefonePessoal}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{usuario.email}"
+                              filterBy="#{usuario.email}">
+                        <f:facet name="header">
+                            <h:outputText value="E-mail"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.email}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{usuario.saram}"
+                              filterBy="#{usuario.saram}">
+                        <f:facet name="header">
+                            <h:outputText value="Saram"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.saram}"/>
+                    </p:column>
+
                 </p:dataTable>
             </p:growl>
         </h:form> 
